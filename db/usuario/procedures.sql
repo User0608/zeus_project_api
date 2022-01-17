@@ -9,7 +9,7 @@ begin
     return query select  
 		u.username,
 		cast('***************' as varchar(80)) as password,
-		u.state, u.create_at , u.owner_entity
+		u.state, u.created_at , u.owner_entity
 		from usuario u where u.username = _username and u.password=crypt(_password,u.password);
 end;
 $$
@@ -25,13 +25,13 @@ declare
     
 begin
     if (select count(u.*) from usuario u where u.username = _username)>0 then
-        raise exception '{message","usuario {%}, ya existe"}',_username;
+        raise exception '{"message":"usuario [%], ya existe"}',_username;
     end if;
     insert into usuario(username,password) values(_username,crypt(_password, gen_salt('bf', 8)));
     return query select
 		u.username,
 		cast('***************' as varchar(80)) as password,
-		u.state, u.create_at, u.owner_entity
+		u.state, u.created_at, u.owner_entity
 	from usuario u where username=_username;
 end;
 $$

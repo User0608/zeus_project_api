@@ -15,9 +15,12 @@ type Response struct {
 	Page    string      `json:"page,omitempty"`
 }
 
-func OKToken(c echo.Context, token string) error {
-	return c.JSON(http.StatusOK, &Response{Token: token})
+func OKToken(c echo.Context, token string, data interface{}) error {
+	return c.JSON(http.StatusOK, &Response{Token: token, Data: data})
 }
 func OKResponse(c echo.Context, payload interface{}) error {
 	return c.JSON(http.StatusOK, &Response{Data: payload})
+}
+func OKMessage(c echo.Context, message string) error {
+	return c.JSON(http.StatusOK, &Response{Message: message})
 }

@@ -35,11 +35,25 @@ func LoadConfig(configFilePath string) error {
 func initRepository(connextion *gorm.DB) {
 	Connextion = connextion
 	usuarioRepository = repos.NewUsuarioRepository(connextion)
+	personaRepository = repos.NewPersonaRepository(connextion)
+	codigoRepository = repos.NewCodigoRepository(connextion)
+	convocatoriaRepository = repos.NewConvocatoriaRepository(connextion)
+	moduloesbasRepository = repos.NewModuloEsbasRepository(connextion)
+	documentoRepository = repos.NewDocumentoRepository(connextion)
 }
 func initServices() {
 	usuarioService = services.NewUsuarioRepository(usuarioRepository)
+	personaService = services.NewPersonaService(personaRepository)
+	codigoService = services.NewCodigoService(codigoRepository)
+	convocatoriaService = services.NewConvocatoriaService(convocatoriaRepository)
+	moduloesbasService = services.NewModuloEsbasService(moduloesbasRepository)
+	documentoService = services.NewDocumentoService(documentoRepository)
 }
 func initHandlers() {
 	usuarioHandler = handlers.NewUsuarioHandler(usuarioService)
-
+	personaHandler = handlers.NewPersonaHandler(personaService)
+	codigoHandler = handlers.NewCodigoHandler(codigoService)
+	convocatoriaHandler = handlers.NewConvocatoriaHandler(convocatoriaService)
+	moduloesbasHandler = handlers.NewModuloEsbasHanlder(moduloesbasService)
+	documentoHandler = handlers.NewDocumentoHandler(documentoService)
 }

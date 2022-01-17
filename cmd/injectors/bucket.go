@@ -10,11 +10,25 @@ import (
 var ( //db connextion
 	Connextion *gorm.DB
 	//repository
-	usuarioRepository *repos.UsuarioRepository
+	usuarioRepository      *repos.UsuarioRepository
+	personaRepository      *repos.PersonaRepository
+	codigoRepository       *repos.CodigoRepository
+	convocatoriaRepository *repos.ConvocatoriaRepository
+	moduloesbasRepository  *repos.ModuloEsbasRepository
+	documentoRepository    *repos.DocumentoRepository
 
 	//services
-	usuarioService *services.UsuarioService
-
+	usuarioService      *services.UsuarioService
+	personaService      *services.PersonaService
+	codigoService       *services.CodigoService
+	convocatoriaService *services.ConvocatoriaService
+	moduloesbasService  *services.ModuloEsbasService
+	documentoService    *services.DocumentoService
 	//handlers
-	usuarioHandler *handlers.UsuarioHandler
+	usuarioHandler      *handlers.UsuarioHandler
+	personaHandler      *handlers.PersonaHandler
+	codigoHandler       *handlers.CodigoHandler
+	convocatoriaHandler *handlers.ConvocatoriaHandler
+	moduloesbasHandler  *handlers.ModuloEsbasHandler
+	documentoHandler    *handlers.DocumentoHandler
 )

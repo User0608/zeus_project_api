@@ -8,3 +8,4 @@ end;
 $$
 language plpgsql;
 
+select * from usuario

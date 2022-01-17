@@ -1,41 +1,48 @@
 package auth
 
 import (
+	"fmt"
 	"time"
 
-	"github.com/User0608/zeus_project_api/errs"
+	"github.com/User0608/zeus_project_api/errores"
 	"github.com/User0608/zeus_project_api/models"
 	"github.com/dgrijalva/jwt-go"
 )
 
+type MyClaim struct {
+	jwt.StandardClaims
+	Username string `json:"username"`
+	Role     string `json:"role"`
+}
+
 func GenerageToken(u models.Usuario) (string, error) {
-	claim := jwt.StandardClaims{
-		Id:        u.Username,
-		Subject:   u.OwnerEntity,
-		Issuer:    "saucedo",
-		Audience:  "web/mobile",
-		IssuedAt:  time.Now().Unix(),
-		ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
+	claim := MyClaim{
+		StandardClaims: jwt.StandardClaims{
+			IssuedAt:  time.Now().Unix(),
+			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
+		},
+		Username: u.Username,
+		Role:     u.OwnerEntity,
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claim)
 	signedToken, err := token.SignedString(singKey)
 	if err != nil {
-		return "", errs.WrapAndMessage(errs.Trc("auth", "GenerageToken"), err, errs.ErrTokenSignedString)
+		return "", errores.NewInternalf(fmt.Errorf("%s:%w", "auth.GenerageToken", err), errores.ErrSigningTokenString)
 	}
 	return signedToken, nil
 }
 
-func ValidateToken(t string) (jwt.StandardClaims, error) {
-	token, err := jwt.ParseWithClaims(t, &jwt.StandardClaims{}, verifyFunction)
+func ValidateToken(t string) (MyClaim, error) {
+	token, err := jwt.ParseWithClaims(t, &MyClaim{}, verifyFunction)
 	if err != nil {
-		return jwt.StandardClaims{}, errs.Create(errs.Trc("auth", "ValidateToken()"), errs.ErrInvalidToken)
+		return MyClaim{}, errores.NewUnauthorizedf(err, errores.ErrInvalidToken)
 	}
 	if !token.Valid {
-		return jwt.StandardClaims{}, errs.Create(errs.Trc("auth", "ValidateToken()"), errs.ErrInvalidToken)
+		return MyClaim{}, errores.NewUnauthorizedf(err, errores.ErrInvalidToken)
 	}
-	claim, ok := token.Claims.(*jwt.StandardClaims)
+	claim, ok := token.Claims.(*MyClaim)
 	if !ok {
-		return jwt.StandardClaims{}, errs.Create(errs.Trc("auth", "ValidateToken()"), errs.ErrInvalidToken)
+		return MyClaim{}, errores.NewUnauthorizedf(err, errores.ErrInvalidToken)
 	}
 	return *claim, nil
 }

@@ -12,4 +12,7 @@ func usuarioUpgrade(e *echo.Echo) {
 	g := e.Group("/usuario")
 	g.Use(auth.JWTMiddleware)
 	g.POST("", h.CreateUser)
+	g.GET("", h.FindAll)
+	g.GET("/free", h.FreeUsers)
+	g.DELETE("", h.Delete)
 }
