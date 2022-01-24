@@ -230,3 +230,40 @@ create table asistencia
     constraint fk_asistencia__matricula foreign key (matricula_id)
         references matricula (id)
 );
+create table cronograma
+(
+    id          serial,
+    nombre      varchar(100) not null,
+    descripcion varchar(280) default '',
+    created_by  char(8)      not null,
+    constraint pk_cronograma primary key (id),
+    constraint fk_cronograma__primer_jefe foreign key (created_by)
+        references primer_jefe (dni)
+);
+create table programacion
+(
+    id            serial,
+    nombre        varchar(100) not null,
+    detalle       varchar(280) default '',
+    fecha         date         default current_date,
+    cronograma_id int          not null,
+    constraint pk_programacion primary key (id),
+    constraint fk_programacion__cronograma foreign key (cronograma_id) references cronograma (id)
+);
+create table actividad
+(
+    id              serial,
+    titulo          varchar(100) not null,
+    detalle         varchar(280) default '',
+    hora_inicio     int          not null,
+    hora_fin        int          not null,
+    owner_dni      char(8)      default '00000000',
+    programacion_id int          not null,
+    constraint chk_hora_inicio check (hora_inicio >= 0 and hora_inicio < 24 ),
+    constraint chk_hora_fin check (hora_fin >= 0 and hora_fin < 25 ),
+    constraint pk_actividad primary key (id),
+    constraint fk_actividad__entity foreign key (owener_dni)
+        references entity (dni),
+    constraint fk_actividad__programacion foreign key (programacion_id)
+        references programacion (id)
+);

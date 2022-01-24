@@ -20,3 +20,6 @@ func GetModuloesbasHandler() *handlers.ModuloEsbasHandler {
 func GetDocumentoHandler() *handlers.DocumentoHandler {
 	return documentoHandler
 }
+func GetCronogramaHandler() *handlers.CronogramaHandler {
+	return cronogramaHandler
+}

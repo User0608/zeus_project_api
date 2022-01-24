@@ -40,6 +40,7 @@ func initRepository(connextion *gorm.DB) {
 	convocatoriaRepository = repos.NewConvocatoriaRepository(connextion)
 	moduloesbasRepository = repos.NewModuloEsbasRepository(connextion)
 	documentoRepository = repos.NewDocumentoRepository(connextion)
+	cronogramaRepository = repos.NewCronogramaRepository(connextion)
 }
 func initServices() {
 	usuarioService = services.NewUsuarioRepository(usuarioRepository)
@@ -48,6 +49,7 @@ func initServices() {
 	convocatoriaService = services.NewConvocatoriaService(convocatoriaRepository)
 	moduloesbasService = services.NewModuloEsbasService(moduloesbasRepository)
 	documentoService = services.NewDocumentoService(documentoRepository)
+	cronogramaService = services.NewCronogramaService(cronogramaRepository)
 }
 func initHandlers() {
 	usuarioHandler = handlers.NewUsuarioHandler(usuarioService)
@@ -56,4 +58,5 @@ func initHandlers() {
 	convocatoriaHandler = handlers.NewConvocatoriaHandler(convocatoriaService)
 	moduloesbasHandler = handlers.NewModuloEsbasHanlder(moduloesbasService)
 	documentoHandler = handlers.NewDocumentoHandler(documentoService)
+	cronogramaHandler = handlers.NewCronogramaHandler(cronogramaService)
 }

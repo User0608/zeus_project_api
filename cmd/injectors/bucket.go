@@ -16,6 +16,7 @@ var ( //db connextion
 	convocatoriaRepository *repos.ConvocatoriaRepository
 	moduloesbasRepository  *repos.ModuloEsbasRepository
 	documentoRepository    *repos.DocumentoRepository
+	cronogramaRepository   *repos.CronogramaRepository
 
 	//services
 	usuarioService      *services.UsuarioService
@@ -24,6 +25,8 @@ var ( //db connextion
 	convocatoriaService *services.ConvocatoriaService
 	moduloesbasService  *services.ModuloEsbasService
 	documentoService    *services.DocumentoService
+	cronogramaService   *services.CronogramaService
+
 	//handlers
 	usuarioHandler      *handlers.UsuarioHandler
 	personaHandler      *handlers.PersonaHandler
@@ -31,4 +34,5 @@ var ( //db connextion
 	convocatoriaHandler *handlers.ConvocatoriaHandler
 	moduloesbasHandler  *handlers.ModuloEsbasHandler
 	documentoHandler    *handlers.DocumentoHandler
+	cronogramaHandler   *handlers.CronogramaHandler
 )

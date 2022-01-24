@@ -9,4 +9,5 @@ func Upgrade(e *echo.Echo) {
 	convocatoriaUpgrade(e)
 	moduloesbasUpgrade(e)
 	documentoUpgrade(e)
+	cronogramaUpgrade(e)
 }
