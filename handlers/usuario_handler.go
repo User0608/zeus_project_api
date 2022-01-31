@@ -34,6 +34,7 @@ func (h *UsuarioHandler) Login(c echo.Context) error {
 		return utils.OKToken(c, token, usuario)
 	}
 }
+
 func (h *UsuarioHandler) CreateUser(c echo.Context) error {
 	request := models.PostUsuario{}
 	if err := h.binder.BindBody(c, &request); err != nil {

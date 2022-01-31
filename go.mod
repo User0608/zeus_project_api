@@ -13,6 +13,7 @@ require (
 )
 
 require (
+	github.com/cihub/seelog v0.0.0-20170130134532-f561c5e57575 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.10.1 // indirect
@@ -26,8 +27,15 @@ require (
 	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/labstack/gommon v0.3.1 // indirect
+	github.com/lib/pq v1.10.2 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/mikeshimura/dbflute v0.0.0-20181210061525-0fbcf5595ee8 // indirect
+	github.com/mikeshimura/goreport v0.0.0-20191119232708-1be22c2ece7d // indirect
+	github.com/phpdave11/gofpdi v1.0.13 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+	github.com/signintech/gopdf v0.10.6 // indirect
+	github.com/streamrail/concurrent-map v0.0.0-20160823150647-8bf1e9bacbf6 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3 // indirect

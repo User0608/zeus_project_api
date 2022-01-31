@@ -24,3 +24,6 @@ func OKResponse(c echo.Context, payload interface{}) error {
 func OKMessage(c echo.Context, message string) error {
 	return c.JSON(http.StatusOK, &Response{Message: message})
 }
+func OKSuccess(c echo.Context) error {
+	return c.JSON(http.StatusOK, &Response{Message: "operación realizada con éxito"})
+}

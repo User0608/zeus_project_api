@@ -41,6 +41,7 @@ func initRepository(connextion *gorm.DB) {
 	moduloesbasRepository = repos.NewModuloEsbasRepository(connextion)
 	documentoRepository = repos.NewDocumentoRepository(connextion)
 	cronogramaRepository = repos.NewCronogramaRepository(connextion)
+	reporteRepository = repos.NewReportesRepository(connextion)
 }
 func initServices() {
 	usuarioService = services.NewUsuarioRepository(usuarioRepository)
@@ -50,6 +51,7 @@ func initServices() {
 	moduloesbasService = services.NewModuloEsbasService(moduloesbasRepository)
 	documentoService = services.NewDocumentoService(documentoRepository)
 	cronogramaService = services.NewCronogramaService(cronogramaRepository)
+	reporteService = services.NewReporteService(reporteRepository)
 }
 func initHandlers() {
 	usuarioHandler = handlers.NewUsuarioHandler(usuarioService)
@@ -59,4 +61,5 @@ func initHandlers() {
 	moduloesbasHandler = handlers.NewModuloEsbasHanlder(moduloesbasService)
 	documentoHandler = handlers.NewDocumentoHandler(documentoService)
 	cronogramaHandler = handlers.NewCronogramaHandler(cronogramaService)
+	reporteHandler = handlers.NewRepositoyHandler(reporteService)
 }

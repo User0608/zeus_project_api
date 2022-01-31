@@ -23,3 +23,6 @@ func GetDocumentoHandler() *handlers.DocumentoHandler {
 func GetCronogramaHandler() *handlers.CronogramaHandler {
 	return cronogramaHandler
 }
+func GetReporteHandler() *handlers.RepositoyHandler {
+	return reporteHandler
+}

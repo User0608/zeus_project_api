@@ -2,61 +2,21 @@ package documentos
 
 import (
 	"fmt"
-	"os"
 	"strings"
-	"sync"
 
 	"github.com/User0608/zeus_project_api/models"
 	"github.com/go-pdf/fpdf"
 	"github.com/sirupsen/logrus"
 )
 
-var meses map[string]string = map[string]string{
-	"January": "Enero", "February": "Febrero", "March": "Marzo",
-	"April": "Abril", "May": "Mayo", "June": "Junio",
-	"July": "Julio", "August": "Agosto", "September": "Septiembre",
-	"October": "Octubre", "November": "Noviembre", "December": "Diciembre",
-}
-
-const INxPOINT float64 = 1.0 / 72 // one inchs for point
-const TEXT_SIZE = 11
-const CELL_HIGHT = INxPOINT * (TEXT_SIZE) * 1.8
-
-type TextFont struct {
-	Name     string
-	Style    string //B: bold, R: Regular
-	FilePath string
-}
-
-var fonts []TextFont
-var one sync.Once
-
-type Memorando struct {
-	models.Memorando
+type Informe struct {
+	models.Informe
 	FechaString string
 	DelCargo    string
 	pdf         *fpdf.Fpdf
 }
 
-func SetDocumentFonts(tf []TextFont) error {
-	var err error
-	one.Do(func() {
-		for _, v := range tf {
-			if _, errr := os.Stat(v.FilePath); err != nil {
-				if os.IsNotExist(err) {
-					err = fmt.Errorf("file not exist: %w", errr)
-					return
-				}
-				err = errr
-				return
-			}
-			fonts = append(fonts, v)
-		}
-
-	})
-	return err
-}
-func NewMemorando(m models.Memorando) *Memorando {
+func NewInforme(m models.Informe) *Informe {
 	pdf := fpdf.New("P", "in", "A4", "")
 	loadFonts(pdf)
 	pdf.SetMargins(1, 1, 1)
@@ -64,10 +24,10 @@ func NewMemorando(m models.Memorando) *Memorando {
 	if err := pdf.Error(); err != nil {
 		logrus.Warn(err)
 	}
-	return &Memorando{
+	return &Informe{
 		FechaString: fmt.Sprintf("Guadalupe, %d de %s del %d", m.Fecha.Day(), meses[m.Fecha.Month().String()], m.Fecha.Year()),
-		Memorando: models.Memorando{
-			Codigo:     fmt.Sprintf("MEMORANDO Nº %s/B-128", m.Codigo),
+		Informe: models.Informe{
+			Codigo:     fmt.Sprintf("INFORME Nº %s/UBO \"Nstra. Sra. de Gpe.\"-G/C", m.Codigo),
 			ParteDel:   m.ParteDel,
 			DirigidoAl: m.DirigidoAl,
 			Asunto:     m.Asunto,
@@ -79,7 +39,7 @@ func NewMemorando(m models.Memorando) *Memorando {
 		///falta dato
 	}
 }
-func (m *Memorando) PDF(savePath string) error {
+func (m *Informe) PDF(savePath string) error {
 	if err := m.pdf.Error(); err != nil {
 		return err
 	}
@@ -90,11 +50,11 @@ func (m *Memorando) PDF(savePath string) error {
 	// addParagraph(m.pdf, "DEL                :hola a todos como estan")
 	return m.pdf.OutputFileAndClose(savePath)
 }
-func (m *Memorando) writeTitle() {
+func (m *Informe) writeTitle() {
 	m.pdf.SetFont("liberation", "B", 12)
 	m.pdf.MultiCell(0, INxPOINT*16*2.5, m.Codigo, "", "C", false)
 }
-func (m *Memorando) writeDetalles() {
+func (m *Informe) writeDetalles() {
 	cellHight := INxPOINT * (TEXT_SIZE) * 2.5
 	m.pdf.SetFont("liberation", "R", TEXT_SIZE)
 	m.pdf.CellFormat(1, cellHight, "DEL", "0", 0, "L", false, 0, "")
@@ -114,7 +74,7 @@ func (m *Memorando) writeDetalles() {
 	m.pdf.CellFormat(0, cellHight, line, "0", 2, "L", false, 0, "")
 	m.pdf.CellFormat(0, CELL_HIGHT, "", "0", 2, "L", false, 0, "")
 }
-func (m *Memorando) writeBody() {
+func (m *Informe) writeBody() {
 	m.pdf.SetFont("liberation", "R", TEXT_SIZE)
 	paragraphs := strings.Split(strings.TrimSpace(m.Contenido), "\n")
 	fmt.Println(len(paragraphs))
@@ -122,15 +82,9 @@ func (m *Memorando) writeBody() {
 		m.pdf.MultiCell(0, CELL_HIGHT, fmt.Sprintf("   %s", p), "", "J", false)
 	}
 }
-func (m *Memorando) writeATT() {
+func (m *Informe) writeATT() {
 	m.pdf.SetFont("liberation", "R", TEXT_SIZE)
 	m.pdf.CellFormat(0, CELL_HIGHT, "", "0", 2, "L", false, 0, "")
 	m.pdf.CellFormat(0, CELL_HIGHT, "", "0", 2, "L", false, 0, "")
 	m.pdf.MultiCell(0, CELL_HIGHT, "Atentamente,", "", "C", false)
-}
-
-func loadFonts(pdf *fpdf.Fpdf) {
-	for _, v := range fonts {
-		pdf.AddUTF8Font(v.Name, v.Style, v.FilePath)
-	}
 }

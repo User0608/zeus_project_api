@@ -10,4 +10,5 @@ func Upgrade(e *echo.Echo) {
 	moduloesbasUpgrade(e)
 	documentoUpgrade(e)
 	cronogramaUpgrade(e)
+	reportesUpgrade(e)
 }
